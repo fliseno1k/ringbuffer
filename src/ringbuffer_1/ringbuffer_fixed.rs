@@ -167,3 +167,47 @@ where
         }
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_boxed_slice() {
+        let mut rb = Fixed::from(vec![0; 3].into_boxed_slice());
+        assert_eq!(rb.push(1), 0);
+        assert_eq!(rb.push(2), 0);
+        assert_eq!(rb.push(3), 0);
+        assert_eq!(rb.push(4), 1);
+    }
+
+    #[test]
+    fn test_array() {
+        let mut rb = Fixed::from([0i32; 3]);
+        assert_eq!(rb.push(1), 0);
+        assert_eq!(rb.push(2), 0);
+        assert_eq!(rb.push(3), 0);
+        assert_eq!(rb.push(4), 1);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_from_empty_vec() {
+        let _ = Fixed::from(Vec::<i32>::new());
+    }
+
+    #[test]
+    fn test_from_vec() {
+        let mut rb = Fixed::from(vec![1, 2, 3]);
+        assert_eq!(rb.push(4), 1);
+        assert_eq!(rb.push(5), 2);
+        assert_eq!(rb.push(6), 3);
+        assert_eq!(rb.push(7), 4);
+    }
+
+    #[test]
+    fn test_get_out_of_range() {
+        let rb = Fixed::from([0i32; 3]);
+        let _ = rb[10];
+    }
+}
