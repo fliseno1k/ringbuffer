@@ -15,4 +15,6 @@ pub(self) use alloc::boxed::Box;
 #[cfg(feature = "std")]
 pub(self) use std::boxed::Box;
 
-pub mod traits;
+mod traits;
+
+pub mod ringbuffer_fixed;
